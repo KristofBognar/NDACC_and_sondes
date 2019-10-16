@@ -52,7 +52,7 @@ if exist(fname2,'file')==2
     RH_out=interp2(x,y,RH_arr,ft,y);
     
     % get potential temperature
-    theta_out=T_out * ( (1e5/P_out)^0.286 );
+    theta_out=get_theta(P_out,T_out);
     
 else % do interpolation from scratch
 
@@ -179,7 +179,7 @@ else % do interpolation from scratch
     RH_out=interp2(x,y,RH_arr,ft,y);
 
     % get potential temperature
-    theta_out=T_out*(1e5/P_out)^0.286;
+    theta_out=get_theta(P_out,T_out);
     
     %% save  data so next function call is faster
     save(fname2,'x','y','P_arr','T_arr','RH_arr');
