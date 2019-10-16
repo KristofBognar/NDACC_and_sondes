@@ -1,4 +1,4 @@
-function [ alt_grid, P_out, T_out, RH_out ] = interp_radiosonde( year, ft )
+function [ alt_grid, P_out, T_out, RH_out, theta_out ] = interp_radiosonde( year, ft )
 %Interp_sonde: interpolate radiosonde profiles to specified time and altitude grid
 %
 %   On first call, function interpolates all sonde data for given year onto a common
@@ -50,6 +50,9 @@ if exist(fname2,'file')==2
     P_out=interp2(x,y,P_arr,ft,y);
     T_out=interp2(x,y,T_arr,ft,y);
     RH_out=interp2(x,y,RH_arr,ft,y);
+    
+    % get potential temperature
+    theta_out=T_out * ( (1e5/P_out)^0.286 );
     
 else % do interpolation from scratch
 
@@ -175,6 +178,9 @@ else % do interpolation from scratch
     T_out=interp2(x,y,T_arr,ft,y);
     RH_out=interp2(x,y,RH_arr,ft,y);
 
+    % get potential temperature
+    theta_out=T_out*(1e5/P_out)^0.286;
+    
     %% save  data so next function call is faster
     save(fname2,'x','y','P_arr','T_arr','RH_arr');
 end
