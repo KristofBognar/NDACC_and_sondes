@@ -100,7 +100,10 @@ else % do interpolation from scratch
         T=ptu_data.(['ptu_' f_list{i}])(:,3)+273.15; % T in file is celsius, need K!
         RH=ptu_data.(['ptu_' f_list{i}])(:,4); % RH in %
 
-        % first remove duplicate altitude values
+        % remove potential outliers in temperature (noticed in GRAW files)
+        T(T>500)=NaN;
+        
+        % remove duplicate altitude values
         [~,ind,~]=unique(alt);
 
         % interpolate profile information

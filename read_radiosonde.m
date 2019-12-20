@@ -273,8 +273,8 @@ if exist('wnd_data','var')
 end
 
 % recreate interpolated files
-interp_radiosonde(2019,80);
-interp_radiosonde_wnd(2019,80);
+interp_radiosonde(year,80);
+interp_radiosonde_wnd(year,80);
 
 cd(cur_dir)
 

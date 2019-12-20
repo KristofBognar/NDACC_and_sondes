@@ -1,4 +1,4 @@
-% Script to read in retrieved VCD data and format them appropriately to
+% function to read in retrieved VCD data and format them appropriately to
 % create the NDACC HDF files
 % Created by Kristof Bognar, 2017
 %
@@ -43,10 +43,10 @@
 
 % Generates yearly files for submission to NDACC archive
 % if false, rapid delivery options are selected
-standard_submission=false;
+standard_submission=true;
 
 % RD file to process, keep format as '_<number>'
-batch='_8'; 
+batch='_10'; 
 
 instr='UT-GBS';
 % instr='PEARL-GBS';
@@ -55,7 +55,7 @@ instr='UT-GBS';
 % 1: O3
 % 2: NO2
 % 3: NO2 UV
-tg=1;
+tg=2;
 
 % how to break up measurements (files created from first to last measurement date)
 % true: yearly files
@@ -73,8 +73,8 @@ if standard_submission
     version='003';
 
     % start/end of measurements
-    startyear=2018;
-    endyear=2018;
+    startyear=2019;
+    endyear=2019;
     
     % location of VCD files
     % filenames hardcoded

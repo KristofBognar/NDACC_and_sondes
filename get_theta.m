@@ -1,5 +1,5 @@
 function [ theta ] = get_theta( P_in, T_in )
-%GET_THETA(P_in, T_in) Calculate potential temperature
+%GET_THETA(P_in, T_in): Calculates potential temperature
 %
 % P_in must be Pa, and T_in must be K
 % P_in and T_in must be the same size
