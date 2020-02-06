@@ -1,10 +1,10 @@
 % to plot ozonesondes/radiosondes using color plot
 
-year=2017;
+year=2019;
 ystr=num2str(year);
 
-ozone=0;
-temperature=1;
+ozone=1;
+temperature=0;
 wind=0;
 RH=0;
 
@@ -21,7 +21,7 @@ if ozone
 
 %     figure();
     figure(99)
-    subplot(313)
+%     subplot(313)
 
     % loop over all sonde data
     for i=1:ll
