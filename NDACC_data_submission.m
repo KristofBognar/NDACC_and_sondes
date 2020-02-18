@@ -43,19 +43,20 @@
 
 % Generates yearly files for submission to NDACC archive
 % if false, rapid delivery options are selected
-standard_submission=true;
+standard_submission=false;
 
 % RD file to process, keep format as '_<number>'
-batch='_10'; 
+% ignored if standard_submission is set to true
+batch='_4'; 
 
-instr='UT-GBS';
-% instr='PEARL-GBS';
+% instr='UT-GBS';
+instr='PEARL-GBS';
 
 % select tracegas to archive
 % 1: O3
 % 2: NO2
 % 3: NO2 UV
-tg=2;
+tg=3;
 
 % how to break up measurements (files created from first to last measurement date)
 % true: yearly files
@@ -87,7 +88,7 @@ else % rapid delivery setup
     % select datafile version
     version='002';
     
-    % start/end of measurements is always current year
+    % start/end of measurements should always be current year
     startyear=year(datetime(now,'convertfrom','datenum'));
     endyear=year(datetime(now,'convertfrom','datenum'));
 
