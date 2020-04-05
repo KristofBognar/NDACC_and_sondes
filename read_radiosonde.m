@@ -153,9 +153,11 @@ elseif any(year==2019:2100)
 
     % remove duplicates and ozonesonde files
     % do it manually since system is new, no idea what exceptions will come up
+    exceptions={''};
     if year==2019, 
         
         % badly named files to keep, with formatted version of the name
+        % this string is the truncated name, not the file name
         exceptions={'19041100 (2)'};
         
         f_list(find_in_file(f_list,'201903120000.csv'))=[]; % duplicate
@@ -165,6 +167,18 @@ elseif any(year==2019:2100)
         
     end
 
+    if year==2020, 
+        
+        % badly named files to keep, with formatted version of the name
+        % this string is the truncated name, not the file name
+        exceptions={'20022400 (2)'};
+
+        f_list(find_in_file(f_list,...
+               '20200222000018061190_ozoneimdreport_cweu.csv'))=[]; % different format 
+        f_list(find_in_file(f_list,'202002240000.csv'))=[]; % duplicate(ish)
+        
+    end
+    
     % split filename and extension (sonde names are YYYYMMDDhhmm)
     f_list_1=cell(size(f_list));
     f_list_2=cell(size(f_list));
@@ -234,13 +248,14 @@ end
 
 fprintf('\n');
 if ~isempty(noread)
-    fprintf('Could not read:');
+    fprintf('Could not read:\n');
     disp_str=[];
     for i=1:size(noread,2)
         disp_str=[disp_str; f_list{noread(i)}];
     end
     disp(disp_str);
     fprintf('File(s) are corrupted, incomplete, or in wrong format\n');
+    fprintf('(2019 onward: wrong format is likely summary file with very few altitude levels');
 end
 fprintf('Done\n');
 
