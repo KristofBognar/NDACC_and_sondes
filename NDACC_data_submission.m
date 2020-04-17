@@ -47,7 +47,7 @@ standard_submission=false;
 
 % RD file to process, keep format as '_<number>'
 % ignored if standard_submission is set to true
-batch='_1'; 
+batch='_2'; 
 
 instr='UT-GBS';
 % instr='PEARL-GBS';
