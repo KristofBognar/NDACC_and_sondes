@@ -47,16 +47,16 @@ standard_submission=false;
 
 % RD file to process, keep format as '_<number>'
 % ignored if standard_submission is set to true
-batch='_2'; 
+batch='_1'; 
 
-instr='UT-GBS';
-% instr='PEARL-GBS';
+% instr='UT-GBS';
+instr='PEARL-GBS';
 
 % select tracegas to archive
 % 1: O3
 % 2: NO2
 % 3: NO2 UV
-tg=2;
+tg=3;
 
 % how to break up measurements (files created from first to last measurement date)
 % true: yearly files
