@@ -1,20 +1,37 @@
+function NDACC_data_submission( instr, tg, proc_type, yr_in, batch)
 % function to read in retrieved VCD data and format them appropriately to
 % create the NDACC HDF files
 % Created by Kristof Bognar, 2017
 %
-% Code saves bash script that can be run on berg (to create HDF files in IDL)
+% INPUT:
+%   instr:      'UT-GBS' or 'PEARL-GBS'
+%   tg:         1 for ozone, 2 for NO2, 3 for NO2-UV
+%   proc_type:  'RD' for rapid delivery files
+%               'standard' for yearly NDACC files
+%   yr_in:      year(s) to process: single number or list of two years [startyear,endyear]
+%   batch:      Only if proc_type='RD'; the number of the RD VCD batch.
+%               Format: '_<number>'. Ignored if proc_type='standard'
 %
-% Runs for specified instrument/tracegas
+%   GBS VCDs are loaded from saved .mat files
+%   Ozonesonde and radiosonde data are retrieved from saved files; replaced by
+%       standard atmosphere is sonde data is missing.
+%   Averaging kernels are retrieved live from NDACC LUT
+%   Data is filtered using CAMS error limits (such that more than 50% of
+%       the datapoints pass the error filter)
 %
-% Creates either monthly or yearly HDF files
+% 
+%   example: NDACC_data_submission( 'UT-GBS', 1, 'RD', 2020, '_4');
 %
-% GBS VCDs are loaded from saved .mat files
-% Ozonesonde and radiosonde data are retrieved from saved files
-% Averaging kernels are retrieved runtime from NDACC LUT
 %
-% Input files are generated using write_HDF_input_file.m, from template files
-%   originator attributes, dataset attributes and variable
-%   descriptions/notes are hardcoded in template files
+% OUTPUT: Input files and run script for IDL saved in the hard coded berg
+%         folder. The script must be run on berg after this code is done.
+%   
+%         Default format is yearly HDF files; can be changed to monthly if
+%         necessary
+%
+%         Input files are generated using write_HDF_input_file.m, from
+%         template files originator attributes, dataset attributes and
+%         variable descriptions/notes are hardcoded in template files
 %
 %%% Old version (prior to QA/QC with Bravo):
     % use ozonesonde P, T data to calculate air number densities, since
@@ -39,24 +56,14 @@
 
 %% control variables %%
 
-% rapid delivery or yearly submission?
-
-% Generates yearly files for submission to NDACC archive
-% if false, rapid delivery options are selected
-standard_submission=false;
-
-% RD file to process, keep format as '_<number>'
-% ignored if standard_submission is set to true
-batch='_4'; 
-
-instr='UT-GBS';
-% instr='PEARL-GBS';
-
-% select tracegas to archive
-% 1: O3
-% 2: NO2
-% 3: NO2 UV
-tg=1;
+% standard submission or RD?
+if strcmp(proc_type,'RD')
+    standard_submission=false;
+elseif strcmp(proc_type,'standard')
+    standard_submission=true;
+else
+    error('Select RD or standard processing')
+end
 
 % how to break up measurements (files created from first to last measurement date)
 % true: yearly files
@@ -74,12 +81,20 @@ if standard_submission
     version='003';
 
     % start/end of measurements
-    startyear=2019;
-    endyear=2019;
+    if length(yr_in)==1
+        startyear=yr_in;
+        endyear=yr_in;
+    elseif length(yr_in)==2
+        startyear=yr_in(1);
+        endyear=yr_in(2);
+    end
     
-    % location of VCD files
-    % filenames hardcoded
-    vcd_dir='/home/kristof/work/GBS/VCD_results/';
+    % location of VCD files; filenames hardcoded
+    if ismac
+        error('Set VCD directory')
+    elseif isunix
+        vcd_dir='/home/kristof/work/GBS/VCD_results/';
+    end
     
     batch_tag='';
 
@@ -89,12 +104,16 @@ else % rapid delivery setup
     version='002';
     
     % start/end of measurements should always be current year
-    startyear=year(datetime(now,'convertfrom','datenum'));
-    endyear=year(datetime(now,'convertfrom','datenum'));
+    if length(yr_in)~=1, error('Give single year for RD processing'); end
+    startyear=yr_in;
+    endyear=yr_in;
 
-    % location of VCD files
-    % filenames hardcoded
-    vcd_dir='/home/kristof/work/GBS/VCD_results/NDACC_RD/';
+    % location of VCD files; filenames hardcoded
+    if ismac
+        error('Set VCD directory')
+    elseif isunix
+        vcd_dir='/home/kristof/work/GBS/VCD_results/NDACC_RD/';
+    end
     
     batch_tag=batch;
     
@@ -102,11 +121,18 @@ end
 
 %% misc control variables
 
-% AVK LUT parent directory (contains ozone and no2 folders, default folder names)
-AVK_LUT_dir='/home/kristof/work/NDACC/guidelines/2012/';
+if ismac
+    
+    error('Set AVK and Berg paths')
+    
+elseif isunix
+    % AVK LUT parent directory (contains ozone and no2 folders, default folder names)
+    AVK_LUT_dir='/home/kristof/work/NDACC/guidelines/2012/';
 
-% directory on berg where input files are saved for HDF file generation
-bergdir='/home/kristof/berg/NDACC_HDF/';
+    % directory on berg where input files are saved for HDF file generation
+    bergdir='/home/kristof/berg/NDACC_HDF/';
+    
+end
 
 % save working directory
 cur_dir = pwd;
@@ -220,7 +246,14 @@ grid on
 grid minor
 
 %% load standard atm
-load('/home/kristof/work/NDACC/HDF4_data_submission/US_standard_AFGL1976/USstandard.mat');
+if ismac
+    
+    error('get standard atm files and set path')
+    
+elseif isunix
+
+    load('/home/kristof/work/NDACC/HDF4_data_submission/US_standard_AFGL1976/USstandard.mat');
+end
 
 %% use AVK LUT to get averaging kernels and partial profiles for the year
 
@@ -361,6 +394,7 @@ for mm=1:end_loop
 % %     [~,new_time_ft]=fracdate(new_time_out);
 % %     
 % %     datetime=ft_to_mjd2k(new_time_ft,year);
+
     datetime=ft_to_mjd2k(VCD_table.fd(ind_current)-1,year);
     
     datetime_start=ft_to_mjd2k(VCD_table.fd_min(ind_current)-1,year);
@@ -771,7 +805,6 @@ for mm=1:end_loop
                   fileinfo.start '_' fileinfo.stop '_007'];
               
     % save in specified directory
-%     fileinfo.fdir='/home/kristof/work/NDACC/HDF4_data_submission/input_files/';
     fileinfo.fdir=[bergdir 'input_files/'];
     
     % extra info for writing metadata file
@@ -841,4 +874,4 @@ end
 %                   do_cams_filter
 end
 
-clearvars
+end
