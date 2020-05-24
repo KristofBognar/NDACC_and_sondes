@@ -255,7 +255,7 @@ if ~isempty(noread)
     end
     disp(disp_str);
     fprintf('File(s) are corrupted, incomplete, or in wrong format\n');
-    fprintf('(2019 onward: wrong format is likely summary file with very few altitude levels');
+    fprintf('(2019 onward: wrong format is likely summary file with very few altitude levels)\n');
 end
 fprintf('Done\n');
 
