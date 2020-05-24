@@ -16,11 +16,19 @@ function read_radiosonde_uas( year, ptu_data )
 
 
 %% setup
-% where to save resulting mat files
-save_dir='/home/kristof/work/radiosonde/Eureka/';
+if ismac
+    
+    error('Set file paths')
+    
+elseif isunix
 
-% open file
-file_in=['/home/kristof/cube/RADIOSONDE/torcube8/RADIOSONDE/UAS18.L2401205.INT.P' num2str(year)];
+    % where to save resulting mat files
+    save_dir='/home/kristof/work/radiosonde/Eureka/';
+
+    % open radiosonde file
+    file_in=['/home/kristof/cube/RADIOSONDE/torcube8/RADIOSONDE/UAS18.L2401205.INT.P' num2str(year)];
+end
+
 fid=fopen(file_in,'r');
 
 %% loop over lines in file

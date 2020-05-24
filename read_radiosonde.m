@@ -18,15 +18,26 @@ function read_radiosonde( year, ptu_data )
 % keep current directory
 cur_dir=(pwd);
 
-% folder to save radiosonde data in
-save_dir='/home/kristof/work/radiosonde/Eureka/';
+if ismac
+    
+    error('set file paths')
+    
+elseif isunix
+    
+    % folder to save radiosonde data in
+    save_dir='/home/kristof/work/radiosonde/Eureka/';
+    
+    % sonde data is on Cube
+    path=['/home/kristof/cube/RADIOSONDE/torcube8/RADIOSONDE/', num2str(year), '/'];
+
+end
+
 % check if save folder exixts
 if ~exist(save_dir,'dir'), mkdir(save_dir), end
 
 % save file name
 savename=[save_dir, 'radiosonde_',num2str(year),'.mat'];
 
-path=['/home/kristof/cube/RADIOSONDE/torcube8/RADIOSONDE/', num2str(year), '/'];
 cd(path);
 
 % recent sonde data is on Cube

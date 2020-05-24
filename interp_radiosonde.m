@@ -39,7 +39,11 @@ ft=[ft];
 % % end
 
 %% see if this function has run before, if yes, load pre-saved file
-fname2=['/home/kristof/work/radiosonde/Eureka/radiosonde_',num2str(year),'_interp.mat'];
+if ismac
+    error('set file paths')
+elseif isunix
+    fname2=['/home/kristof/work/radiosonde/Eureka/radiosonde_',num2str(year),'_interp.mat'];
+end
 
 if exist(fname2,'file')==2
 
@@ -57,7 +61,11 @@ if exist(fname2,'file')==2
 else % do interpolation from scratch
 
     % load appropriate data file
-    fname=['/home/kristof/work/radiosonde/Eureka/radiosonde_',num2str(year),'.mat'];
+    if ismac
+        error('set file paths')
+    elseif isunix
+        fname=['/home/kristof/work/radiosonde/Eureka/radiosonde_',num2str(year),'.mat'];
+    end
     
     if exist(fname,'file')
         load(fname);

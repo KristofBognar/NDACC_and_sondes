@@ -39,8 +39,12 @@ if tg==1
     fclose(fid);
 
     % run LUT
-    [status, result] = dos('wine o3_avk_interpolation_v2_0.exe', '-echo');
-
+    if ismac
+        error('Create executable')
+    elseif isunix
+        [status, result] = dos('wine o3_avk_interpolation_v2_0.exe', '-echo');
+    end
+    
     %% read in avk and profile results
     % Format string for each line of text (both files):
     formatSpec = '%6f%8f%19f%24f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%11f%f%[^\n\r]';

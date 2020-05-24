@@ -14,19 +14,25 @@ function read_radiosonde_wnd( year, wnd_data )
 
 %% input parameters %%
 
-% folder to save radiosonde data in
-% save_dir=['/home/kristof/work/radiosonde/Eureka/', num2str(year), '/'];
-save_dir='/home/kristof/work/radiosonde/Eureka/';
-% check if save folder exixts
-% if ~exist(save_dir), mkdir(save_dir), end
+if ismac
+    
+    error('set file paths')
+    
+elseif isunix
+    
+    % folder to save radiosonde data in
+    save_dir='/home/kristof/work/radiosonde/Eureka/';
+
+    % sonde data is on Cube
+    path=['/home/kristof/cube/RADIOSONDE/torcube8/RADIOSONDE/', num2str(year), '/'];
+    
+end
 
 savename=[save_dir, 'radiosonde_wnd_',num2str(year),'.mat'];
 
 % keep current directory
 cur_dir=(pwd);
 
-% sonde data is on Cube
-path=['/home/kristof/cube/RADIOSONDE/torcube8/RADIOSONDE/', num2str(year), '/'];
 cd(path);
 
 

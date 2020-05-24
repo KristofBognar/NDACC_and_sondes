@@ -21,9 +21,18 @@ function read_ozonesonde( year, sonde_data )
 % save current folder
 start_dir=(pwd);
 
-% go to folder containing yearly sonde files
-path=['/home/kristof/work/ozonesonde/Eureka/', num2str(year), '/'];
-savepath='/home/kristof/work/ozonesonde/Eureka/';
+if ismac
+    
+    error('set file paths')
+    
+elseif isunix
+    
+    % go to folder containing yearly sonde files
+    path=['/home/kristof/work/ozonesonde/Eureka/', num2str(year), '/'];
+    savepath='/home/kristof/work/ozonesonde/Eureka/';
+    
+end
+
 cd(path);
 
 % make list of all files
@@ -199,8 +208,11 @@ savename=['o3sonde_',num2str(year),'.mat'];
 f_list=f_list_1';
 save(savename,'sonde_data','header','launchtime','f_list','tot_col_DU');
 
-% remove interpolated file
-try delete(['o3sonde_',num2str(year),'_interp.mat']); end
+% remove and recreate interpolated file
+interp_file=['o3sonde_',num2str(year),'_interp.mat'];
+if exist(interp_file,'file'), delete(interp_file); end
+
+interp_ozonesonde( year, 80);
 
 cd(start_dir)
 

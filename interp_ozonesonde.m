@@ -36,7 +36,12 @@ ft=[ft];
 
 % no altitude data in sodes from 1999, don't use profile data
 % load total columns from VCD sonde file
-load('/home/kristof/work/ozonesonde/Eureka/sonde_for_VCD.mat');
+if ismac
+    error('set file paths')
+elseif isunix
+    load('/home/kristof/work/ozonesonde/Eureka/sonde_for_VCD.mat');
+end
+
 if year==1999
     
     alt_grid=[15:10:40005]';
@@ -55,7 +60,11 @@ if year==1999
 end
 
 %% see if this function has run before, if yes, load pre-saved file
-fname2=['/home/kristof/work/ozonesonde/Eureka/o3sonde_',num2str(year),'_interp.mat'];
+if ismac
+    error('set file paths')
+elseif isunix
+    fname2=['/home/kristof/work/ozonesonde/Eureka/o3sonde_',num2str(year),'_interp.mat'];
+end
 
 if exist(fname2,'file')==2
     
@@ -92,7 +101,12 @@ if exist(fname2,'file')==2
 else % do interpolation from scratch
     
     % load appropriate data file
-    fname=['/home/kristof/work/ozonesonde/Eureka/o3sonde_',num2str(year),'.mat'];
+    if ismac
+        error('set file paths')
+    elseif isunix
+        fname=['/home/kristof/work/ozonesonde/Eureka/o3sonde_',num2str(year),'.mat'];
+    end
+    
     load(fname);
 
     % number of sonde profiles
