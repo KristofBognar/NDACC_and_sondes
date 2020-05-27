@@ -109,8 +109,13 @@ elseif tg==2 || tg==3
     fclose(fid);
 
     % run LUT
-    [status, result] = dos('wine no2_avk_interpolation_v2_0.exe', '-echo');
-
+    % run LUT
+    if ismac
+        error('Create executable')
+    elseif isunix
+        [status, result] = dos('wine no2_avk_interpolation_v2_0.exe', '-echo');
+    end
+    
     %% read in avk and profile results
     % Format string for each line of text (both files):
     formatSpec = '%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%[^\n\r]';
