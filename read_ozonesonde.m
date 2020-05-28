@@ -212,8 +212,6 @@ save(savename,'sonde_data','header','launchtime','f_list','tot_col_DU');
 interp_file=['o3sonde_',num2str(year),'_interp.mat'];
 if exist(interp_file,'file'), delete(interp_file); end
 
-interp_ozonesonde( year, 80);
-
 cd(start_dir)
 
 
