@@ -91,7 +91,7 @@ if standard_submission
     
     % location of VCD files; filenames hardcoded
     if ismac
-        error('Set VCD directory')
+        vcd_dir='/Users/raminaalwarda/Desktop/PhysicsPhD/GBSdata/VCD_results/';
     elseif isunix
         vcd_dir='/home/kristof/work/GBS/VCD_results/';
     end
@@ -110,7 +110,7 @@ else % rapid delivery setup
 
     % location of VCD files; filenames hardcoded
     if ismac
-        error('Set VCD directory')
+        vcd_dir='/Users/raminaalwarda/Desktop/PhysicsPhD/GBSdata/VCD_results/NDACC_RD/';
     elseif isunix
         vcd_dir='/home/kristof/work/GBS/VCD_results/NDACC_RD/';
     end
@@ -123,7 +123,11 @@ end
 
 if ismac
     
-    error('Set AVK and Berg paths')
+    % AVK LUT parent directory (contains ozone and no2 folders, default folder names)
+    AVK_LUT_dir='/Users/raminaalwarda/Desktop/PhysicsPhD/NDACC/guidelines/2012/';
+
+    % directory on berg where input files are saved for HDF file generation
+    bergdir='/Users/raminaalwarda/Desktop/BERG/export/data/home/ralwarda/NDACC_HDF/';
     
 elseif isunix
     % AVK LUT parent directory (contains ozone and no2 folders, default folder names)
@@ -248,7 +252,7 @@ grid minor
 %% load standard atm
 if ismac
     
-    error('get standard atm files and set path')
+    load('/Users/raminaalwarda/Desktop/PhysicsPhD/NDACC/HDF4_data_submission/USstandard.mat');
     
 elseif isunix
 

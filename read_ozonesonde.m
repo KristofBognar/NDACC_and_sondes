@@ -23,7 +23,8 @@ start_dir=(pwd);
 
 if ismac
     
-    error('set file paths')
+    path=['/Users/raminaalwarda/Desktop/PhysicsPhD/ozonesonde/Eureka/', num2str(year), '/'];
+    savepath='/Users/raminaalwarda/Desktop/PhysicsPhD/ozonesonde/Eureka/';
     
 elseif isunix
     

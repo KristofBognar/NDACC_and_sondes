@@ -20,7 +20,11 @@ cur_dir=(pwd);
 
 if ismac
     
-    error('set file paths')
+    % folder to save radiosonde data in
+    save_dir='/Users/raminaalwarda/Desktop/PhysicsPhD/radiosonde/Eureka/';
+    
+    % sonde data is on Cube
+    path=['/Users/raminaalwarda/Desktop/CUBE/RADIOSONDE/torcube8/RADIOSONDE/', num2str(year), '/'];
     
 elseif isunix
     

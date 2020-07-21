@@ -40,7 +40,8 @@ if tg==1
 
     % run LUT
     if ismac
-        error('Create executable')
+        [status, result] = dos('./o3_avk_interpolation_v2_0.out', '-echo');
+        %error('Create executable')
     elseif isunix
         [status, result] = dos('wine o3_avk_interpolation_v2_0.exe', '-echo');
     end
@@ -111,7 +112,8 @@ elseif tg==2 || tg==3
     % run LUT
     % run LUT
     if ismac
-        error('Create executable')
+        [status, result] = dos('no2_avk_interpolation_v2_0.out', '-echo');
+        %error('Create executable')
     elseif isunix
         [status, result] = dos('wine no2_avk_interpolation_v2_0.exe', '-echo');
     end

@@ -40,7 +40,7 @@ ft=[ft];
 
 %% see if this function has run before, if yes, load pre-saved file
 if ismac
-    error('set file paths')
+    fname2=['/Users/raminaalwarda/Desktop/PhysicsPhD/radiosonde/Eureka/radiosonde_',num2str(year),'_interp.mat'];
 elseif isunix
     fname2=['/home/kristof/work/radiosonde/Eureka/radiosonde_',num2str(year),'_interp.mat'];
 end
@@ -62,7 +62,7 @@ else % do interpolation from scratch
 
     % load appropriate data file
     if ismac
-        error('set file paths')
+        fname=['/Users/raminaalwarda/Desktop/PhysicsPhD/radiosonde/Eureka/radiosonde_',num2str(year),'.mat'];
     elseif isunix
         fname=['/home/kristof/work/radiosonde/Eureka/radiosonde_',num2str(year),'.mat'];
     end

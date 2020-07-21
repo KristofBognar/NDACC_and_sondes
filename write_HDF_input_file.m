@@ -36,7 +36,7 @@ function write_HDF_input_file( instrument, tg, fields, version, RD )
 
 % open template
 if ismac
-    error('Get template')
+    fid = fopen(['/Users/raminaalwarda/Desktop/PhysicsPhD/NDACC/HDF4_data_submission/input_files/Input_template_GBS_ZENITH_' tg '.txt'],'r');
 elseif isunix
     fid = fopen(['/home/kristof/work/NDACC/HDF4_data_submission/input_files/Input_template_GBS_ZENITH_' tg '.txt'],'r');
 end

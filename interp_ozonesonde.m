@@ -37,7 +37,8 @@ ft=[ft];
 % no altitude data in sodes from 1999, don't use profile data
 % load total columns from VCD sonde file
 if ismac
-    error('set file paths')
+   load('/Users/raminaalwarda/Desktop/PhysicsPhD/ozonesonde/Eureka/sonde_for_VCD.mat');
+
 elseif isunix
     load('/home/kristof/work/ozonesonde/Eureka/sonde_for_VCD.mat');
 end
@@ -61,7 +62,7 @@ end
 
 %% see if this function has run before, if yes, load pre-saved file
 if ismac
-    error('set file paths')
+    fname2=['/Users/raminaalwarda/Desktop/PhysicsPhD/ozonesonde/Eureka/o3sonde_',num2str(year),'_interp.mat'];
 elseif isunix
     fname2=['/home/kristof/work/ozonesonde/Eureka/o3sonde_',num2str(year),'_interp.mat'];
 end
@@ -102,7 +103,7 @@ else % do interpolation from scratch
     
     % load appropriate data file
     if ismac
-        error('set file paths')
+        fname=['/Users/raminaalwarda/Desktop/PhysicsPhD/ozonesonde/Eureka/o3sonde_',num2str(year),'.mat'];
     elseif isunix
         fname=['/home/kristof/work/ozonesonde/Eureka/o3sonde_',num2str(year),'.mat'];
     end
@@ -247,7 +248,7 @@ else % do interpolation from scratch
     % years (no missing values at the start/end of year), and that's what
     % is actually used in the retrievals
     if ft>sonde(end,2)-1
-        sonde_column_for_VCD;
+        sonde_column_for_VCD(year, year);
     end
     
     tot_col_arr=interp1(ft_to_mjd2k((sonde(:,2)-1 + sonde(:,3)/24),sonde(:,1)),...
