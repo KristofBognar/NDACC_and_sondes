@@ -194,9 +194,36 @@ for i=1:size(f_list,2)
     
 end 
 
+%% sort profiles if necessary
+% code above only handles duplicate names (names before first '.')
+% if naming convention for same day sondes changes, might need sorting again
+
+% convert launch dates/times to matlab time
+formstr='yyyy-mm-dd HH:MM:SS';
+for i=1:max(size(f_list))
+    datestr=[launchtime{i,1}, ' ', launchtime{i,2}];
+    launch_time(i)=datenum(datestr,formstr);
+end
+
+% if there are two launches for a day, the filenames might not be in
+% chronological order
+if ~issorted(launch_time)
+    
+    fprintf('\n');
+    fprintf('Sorting profiles\n');
+    
+    [~,sort_ind]=sort(launch_time);
+    f_list_1=f_list_1(sort_ind);
+    tot_col_DU=tot_col_DU(sort_ind);
+    launchtime=launchtime(sort_ind,:);
+    
+end
+
 fprintf('\n');
 fprintf('Done\n');
 
+
+%% save
 % define header
 header={'altitude (m)','ozone VMR','pressure (Pa)','temperature (C)',...
          'RH (%)','wind speed (??)','wind direction'};
